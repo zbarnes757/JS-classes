@@ -1,0 +1,16 @@
+{
+  "name": "credera",
+  "version": "1.0.0",
+  "description": "Take home test for credera",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Zac Barnes",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^19.0.2",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1"
+  }
+}
