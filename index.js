@@ -6,16 +6,20 @@ const moment = require('moment');
 const daysOfWeek = ['Mon', 'Tues', 'Wed', 'Thu', 'Fri'];
 
 class TrainScheduler {
-  constructor(input, now) {
+  constructor(input) {
     this.trainTimes = _(input)
       .split(',')
       .map((inputTime) => {
         const isWeekdayOnly = inputTime.endsWith('*');
         inputTime = inputTime.replace('*', '');
         const [hours, minutes] = inputTime.split(':').map(Number);
-        const unixTime = moment(now).hour(hours).minute(minutes).valueOf();
+        const unixTime = moment().hour(hours).minute(minutes).valueOf();
 
-        return { inputTime, unixTime, isWeekdayOnly };
+        return {
+          inputTime,
+          unixTime,
+          isWeekdayOnly
+        };
       })
       .sortBy(input, 'unixTime')
       .value();
@@ -25,7 +29,11 @@ class TrainScheduler {
 
   static compareTimes(now, times) {
     let res;
-    _.forEach(times, ({ inputTime, unixTime, isWeekdayOnly }, i) => {
+    _.forEach(times, ({
+      inputTime,
+      unixTime,
+      isWeekdayOnly
+    }, i) => {
       // if now if greater than the current index's time and less than the next
       // set the next time to the upcoming one
       if (i === 0 && now < unixTime) {
@@ -59,9 +67,9 @@ class TrainScheduler {
       if (daysOfWeek.includes(tomorrow.format('ddd'))) {
         next = this.trainTimes[0].inputTime;
       } else {
-        next = !this.weekendOnlyTimes.length
-          ? this.trainTimes[0].inputTime
-          : this.weekendOnlyTimes[0].inputTime;
+        next = !this.weekendOnlyTimes.length ?
+          this.trainTimes[0].inputTime :
+          this.weekendOnlyTimes[0].inputTime;
       }
 
     }
@@ -76,7 +84,7 @@ const findTrainTimes = (path, currentTime = moment()) => {
   const input = fs.readFileSync(path, 'utf8');
 
   // instantiate a scheduler with the input string
-  const scheduler = new TrainScheduler(input, currentTime);
+  const scheduler = new TrainScheduler(input);
 
   // set the time to now 
   const now = moment(currentTime).valueOf();
