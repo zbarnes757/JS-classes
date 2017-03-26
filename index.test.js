@@ -30,12 +30,19 @@ test('should return first time of the day if no trains have arrived yet', () => 
 });
 
 test('should return valid time for weekdays', () => {
-  const res = findTrainTimes('./days_input.txt', moment({ 'day': 1, 'hour': 5 }));
+  const res = findTrainTimes('./days_input.txt', moment({
+    'day': 1,
+    'hour': 5
+  }));
   expect(res).toBe('6:42');
 });
 
 test('should return valid time for weekends', () => {
-  const saturday = moment().set({ 'day': 6, 'hour': 7, 'minute': 1 });
+  const saturday = moment().set({
+    'day': 13,
+    'hour': 7,
+    'minute': 1
+  });
 
   const res = findTrainTimes('./days_input.txt', saturday);
   // setting before weekday only time of 7:02
@@ -43,13 +50,21 @@ test('should return valid time for weekends', () => {
 });
 
 test('should return next valid time on weekend if last train missed for Friday', () => {
-  const fridayNight = moment().set({ 'day': 12, 'hour': 23, 'minute': 59 });
+  const fridayNight = moment().set({
+    'day': 12,
+    'hour': 23,
+    'minute': 59
+  });
   const res = findTrainTimes('./days_input.txt', fridayNight);
   expect(res).toBe('6:52');
 });
 
 test('should return next valid time on weekday if last train missed for Sunday', () => {
-  const sundayNight = moment().set({ 'day': 7, 'hour': 23, 'minute': 59 });
+  const sundayNight = moment().set({
+    'day': 7,
+    'hour': 23,
+    'minute': 59
+  });
   const res = findTrainTimes('./days_input.txt', sundayNight);
   expect(res).toBe('6:42');
 });

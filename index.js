@@ -38,10 +38,7 @@ class TrainScheduler {
       // set the next time to the upcoming one
       if (i === 0 && now < unixTime) {
         res = inputTime;
-      } else if (
-        now > unixTime &&
-        now < _.get(times[i + 1], 'unixTime')
-      ) {
+      } else if (now > unixTime && now < _.get(times[i + 1], 'unixTime')) {
         res = times[i + 1].inputTime;
       }
     });
